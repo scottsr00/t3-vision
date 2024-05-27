@@ -23,16 +23,24 @@ var sidebarVisible = (window.localStorage && window.localStorage.docker_showSide
 function makeTree(treeData, root, filename) {
     var treeNode = document.getElementById('tree');
     var treeHandle = document.getElementById('sidebar-toggle');
-    treeHandle.addEventListener('click', toggleTree, false);
+    if (treeHandle) {
+        treeHandle.addEventListener('click', toggleTree, false);
+    }
 
-    // Build the html and add it to the container.
-    treeNode.innerHTML = nodeHtml('', treeData, '', root);
+    // Add a null check before assigning innerHTML to treeNode
+    if (treeNode) {
+        treeNode.innerHTML = nodeHtml('', treeData, '', root);
+    }
 
     // Root folder (whole tree) should always be open
-    treeNode.childNodes[0].className += ' open';
+    if (treeNode && treeNode.childNodes[0]) {
+        treeNode.childNodes[0].className += ' open';
+    }
 
     // Attach click event handler
-    treeNode.addEventListener('click', nodeClicked, false);
+    if (treeNode) {
+        treeNode.addEventListener('click', nodeClicked, false);
+    }
 
     if (sidebarVisible) document.body.className += ' sidebar';
 
